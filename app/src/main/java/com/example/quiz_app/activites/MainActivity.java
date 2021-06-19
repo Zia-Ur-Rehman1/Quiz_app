@@ -39,12 +39,13 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        rc_view = findViewById(R.id.recyle_view);
         setup_Views();
 
     }
 
     void setup_Views() {
-        setUpFirestore();
+//        setUpFirestore();
         setUpDrawlayout();
         populateDummyData();
         setUpRecyclerView();
@@ -54,7 +55,7 @@ public class MainActivity extends AppCompatActivity {
         CollectionReference collectionReference = db.collection("quizzes");
                 collectionReference.addSnapshotListener(new EventListener<QuerySnapshot>() {
                     @Override
-                    public void onEvent(@Nullable  QuerySnapshot value, @Nullable  FirebaseFirestoreException error) {
+                    public void onEvent(QuerySnapshot value, FirebaseFirestoreException error) {
                         if(value== null || error !=null)
                         {
                             Log.i("ZIA", "onEvent: ");
@@ -86,7 +87,6 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void setUpRecyclerView() {
-        rc_view = findViewById(R.id.recyle_view);
         adapter = new QuizAdapter(this, data);
         GridLayoutManager gridLayoutManager = new GridLayoutManager(this, 2);
         rc_view.setAdapter(adapter);

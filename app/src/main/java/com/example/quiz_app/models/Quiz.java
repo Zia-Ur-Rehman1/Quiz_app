@@ -9,14 +9,14 @@ public class Quiz {
     String id = "";
     String title = "";
 
-    //  Map<String, Question> map = new HashMap<>();
+      Map<String, Question> map = new HashMap<>();
     public Quiz(String id, String title) {
         this.id = id;
         this.title = title;
     }
-//  public Map<String, Question> getMap() {
-//    return map;
-//  }
+  public Map<String, Question> getMap() {
+    return map;
+  }
 
     public String getId() {
         return id;
