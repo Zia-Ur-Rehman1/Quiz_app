@@ -1,5 +1,6 @@
 package com.example.quiz_app.activites;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AppCompatActivity;
@@ -14,6 +15,8 @@ import android.widget.Toast;
 import com.example.quiz_app.R;
 import com.example.quiz_app.adapters.QuizAdapter;
 import com.example.quiz_app.models.Quiz;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentReference;
@@ -21,6 +24,7 @@ import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.EventListener;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.FirebaseFirestoreException;
+import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 
 import java.util.ArrayList;
@@ -45,7 +49,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     void setup_Views() {
-//        setUpFirestore();
+        setUpFirestore();
         setUpDrawlayout();
         populateDummyData();
         setUpRecyclerView();
@@ -53,19 +57,31 @@ public class MainActivity extends AppCompatActivity {
     private  void setUpFirestore(){
         db=FirebaseFirestore.getInstance();
         CollectionReference collectionReference = db.collection("quizzes");
-                collectionReference.addSnapshotListener(new EventListener<QuerySnapshot>() {
+        db.collection("quizzes")
+                .get()
+                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
                     @Override
-                    public void onEvent(QuerySnapshot value, FirebaseFirestoreException error) {
-                        if(value== null || error !=null)
-                        {
-                            Log.i("ZIA", "onEvent: ");
-                            return;
+                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                        if (task.isSuccessful()) {
+                            for (QueryDocumentSnapshot document : task.getResult()) {
+                                Log.d("ZIA", document.getId() + " => " + document.getData());
+                            }
+                        } else {
+                            Log.d("ZIA", "Error getting documents: ", task.getException());
                         }
-                        data.clear();
-                        data.addAll(value.toObjects(Quiz.class));
-                        adapter.notifyDataSetChanged();
                     }
                 });
+        //                collectionReference.addSnapshotListener(new EventListener<QuerySnapshot>() {
+//                    @Override
+//                    public void onEvent(QuerySnapshot value, FirebaseFirestoreException error) {
+//                        if(value== null || error !=null)
+//                        {
+//                            Log.i("ZIA", "onEvent: ");
+//                            return;
+//                        }
+//                        Log.i("ZIA", value.getClass().getName());
+//                    }
+//                });
 
     }
 
