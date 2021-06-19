@@ -9,19 +9,21 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.Quiz_app">
-        <activity android:name=".SignupActivity">
+        <activity android:name=".activites.SignupActivity">
 
         </activity>
-        <activity android:name=".LoginActivity" >
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
+        <activity android:name=".activites.LoginActivity" >
 
         </activity>
-        <activity android:name=".LoginIntro" />
-        <activity android:name=".MainActivity">
+        <activity android:name=".activites.LoginIntro" >
+        <intent-filter>
+            <action android:name="android.intent.action.MAIN" />
+
+            <category android:name="android.intent.category.LAUNCHER" />
+        </intent-filter>
+        </activity>
+
+        <activity android:name=".activites.MainActivity">
         </activity>
     </application>
 
