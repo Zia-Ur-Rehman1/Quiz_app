@@ -62,7 +62,6 @@ public class MainActivity extends AppCompatActivity {
     void setup_Views() {
         setUpFirestore();
         setUpDrawlayout();
-//        populateDummyData();
         setUpRecyclerView();
         setUpDatePicker();
     }
@@ -104,22 +103,6 @@ public class MainActivity extends AppCompatActivity {
         });
     }
 
-    private void populateDummyData() {
-        data.add(new Quiz("1", "2"));
-        data.add(new Quiz("1", "2"));
-        data.add(new Quiz("1", "2"));
-        data.add(new Quiz("1", "2"));
-        data.add(new Quiz("1", "2"));
-        data.add(new Quiz("1", "2"));
-        data.add(new Quiz("1", "2"));
-        data.add(new Quiz("1", "2"));
-        data.add(new Quiz("1", "2"));
-        data.add(new Quiz("1", "2"));
-        data.add(new Quiz("1", "2"));
-        data.add(new Quiz("1", "2"));
-        data.add(new Quiz("1", "2"));
-
-    }
 
     private void setUpRecyclerView() {
         adapter = new QuizAdapter(this, data);
