@@ -39,13 +39,14 @@ public class OptionAdapter extends RecyclerView.Adapter<OptionAdapter.OptionView
         Toast.makeText(context, option[position], Toast.LENGTH_SHORT).show();
         question.user_answer=option[position];
         notifyDataSetChanged();
-
     });
         if(question.user_answer==option[position]){
-            Toast.makeText(context, "SHOW RED BODY", Toast.LENGTH_SHORT).show();
-
+            holder.itemView.setBackgroundResource(R.drawable.option_item_selected_bg);
         }
-        Toast.makeText(context, "SHOW SIMPLE BODY", Toast.LENGTH_SHORT).show();
+        else{
+            holder.itemView.setBackgroundResource(R.drawable.option_item_bg);
+        }
+
 
     }
 

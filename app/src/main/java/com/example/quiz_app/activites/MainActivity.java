@@ -10,6 +10,8 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.Button;
 import android.widget.Toast;
 
 import com.example.quiz_app.R;
@@ -18,6 +20,9 @@ import com.example.quiz_app.models.Question;
 import com.example.quiz_app.models.Quiz;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
+import com.google.android.material.datepicker.MaterialDatePicker;
+import com.google.android.material.datepicker.MaterialPickerOnPositiveButtonClickListener;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentReference;
@@ -35,6 +40,7 @@ import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
     ActionBarDrawerToggle drawer;
+    FloatingActionButton datepicker;
     QuizAdapter adapter;
     FirebaseFirestore db;
     ArrayList<Quiz> data = new ArrayList<>();
@@ -45,6 +51,7 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         rc_view = findViewById(R.id.recyle_view);
+        datepicker=findViewById(R.id.btnDatePicker);
         setup_Views();
 
     }
@@ -54,6 +61,24 @@ public class MainActivity extends AppCompatActivity {
         setUpDrawlayout();
 //        populateDummyData();
         setUpRecyclerView();
+        setUpDatePicker();
+    }
+    private void  setUpDatePicker(){
+        datepicker.setOnClickListener(v -> {
+            MaterialDatePicker<Long> materialDateBuilder = MaterialDatePicker.Builder.datePicker().build();
+            materialDateBuilder.show(getSupportFragmentManager(),"DatePicker");
+            materialDateBuilder.addOnPositiveButtonClickListener(selection -> {
+                Log.d("DatePicker", materialDateBuilder.getHeaderText());
+
+            });
+            materialDateBuilder.addOnNegativeButtonClickListener(selection -> {
+                Log.d("DatePicker", materialDateBuilder.getHeaderText());
+
+            });
+            materialDateBuilder.addOnCancelListener(selection -> {
+                Log.d("DatePicker", "Date Picker Cancelled");
+            });
+        });
     }
     private  void setUpFirestore(){
         db=FirebaseFirestore.getInstance();
@@ -67,9 +92,6 @@ public class MainActivity extends AppCompatActivity {
            data.addAll(value.toObjects(Quiz.class));
            adapter.notifyDataSetChanged();
         });
-
-
-
     }
 
     private void populateDummyData() {

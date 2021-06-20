@@ -25,7 +25,12 @@ public class QuestionActivity extends AppCompatActivity {
         setContentView(R.layout.activity_question);
         recyclerViewl=findViewById(R.id.optionList);
         bindViews();
+        setUpFireStore();
     }
+    private void SetupFireStore(){
+
+    }
+
     private void bindViews(){
         question=new Question(
                 "This is discrittion",
