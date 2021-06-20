@@ -14,6 +14,7 @@ import android.widget.Toast;
 
 import com.example.quiz_app.R;
 import com.example.quiz_app.adapters.QuizAdapter;
+import com.example.quiz_app.models.Question;
 import com.example.quiz_app.models.Quiz;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
@@ -51,37 +52,23 @@ public class MainActivity extends AppCompatActivity {
     void setup_Views() {
         setUpFirestore();
         setUpDrawlayout();
-        populateDummyData();
+//        populateDummyData();
         setUpRecyclerView();
     }
     private  void setUpFirestore(){
         db=FirebaseFirestore.getInstance();
         CollectionReference collectionReference = db.collection("quizzes");
-        db.collection("quizzes")
-                .get()
-                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
-                    @Override
-                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
-                        if (task.isSuccessful()) {
-                            for (QueryDocumentSnapshot document : task.getResult()) {
-                                Log.d("ZIA", document.getId() + " => " + document.getData());
-                            }
-                        } else {
-                            Log.d("ZIA", "Error getting documents: ", task.getException());
-                        }
-                    }
-                });
-        //                collectionReference.addSnapshotListener(new EventListener<QuerySnapshot>() {
-//                    @Override
-//                    public void onEvent(QuerySnapshot value, FirebaseFirestoreException error) {
-//                        if(value== null || error !=null)
-//                        {
-//                            Log.i("ZIA", "onEvent: ");
-//                            return;
-//                        }
-//                        Log.i("ZIA", value.getClass().getName());
-//                    }
-//                });
+        collectionReference.addSnapshotListener((value, error) -> {
+           if(value == null || error!=null){
+               Log.d("ZIA", error.getMessage());
+               return;
+           }
+           data.clear();
+           data.addAll(value.toObjects(Quiz.class));
+           adapter.notifyDataSetChanged();
+        });
+
+
 
     }
 

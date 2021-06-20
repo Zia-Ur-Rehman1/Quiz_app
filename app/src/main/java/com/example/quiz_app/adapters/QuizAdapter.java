@@ -41,10 +41,10 @@ public class QuizAdapter extends RecyclerView.Adapter<QuizAdapter.QuizViewHolder
 
     @Override
     public void onBindViewHolder(QuizAdapter.QuizViewHolder holder, int position) {
-        holder.textView.setText(quizList.get(position).getId());
-    holder.imageView.setImageResource(IconPicker.getIcon());
-    holder.cardView.setCardBackgroundColor(Color.parseColor(ColorPicker.getColor()));
-    holder.itemView.setOnClickListener(new View.OnClickListener() {
+        holder.textView.setText(quizList.get(position).getTitle());
+        holder.imageView.setImageResource(IconPicker.getIcon());
+        holder.cardView.setCardBackgroundColor(Color.parseColor(ColorPicker.getColor()));
+        holder.itemView.setOnClickListener(new View.OnClickListener() {
         @Override
         public void onClick(View v) {
             Toast.makeText(context,quizList.get(position).getTitle(),Toast.LENGTH_SHORT).show();

@@ -10,7 +10,8 @@ public class Quiz {
     String title = "";
 
       Map<String, Question> map = new HashMap<>();
-    public Quiz(String id, String title) {
+    public  Quiz(){}
+      public Quiz(String id, String title) {
         this.id = id;
         this.title = title;
     }
