@@ -6,6 +6,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -34,6 +35,17 @@ public class OptionAdapter extends RecyclerView.Adapter<OptionAdapter.OptionView
     @Override
     public void onBindViewHolder( OptionViewHolder holder, int position) {
     holder.textView.setText(option[position]);
+    holder.itemView.setOnClickListener(v -> {
+        Toast.makeText(context, option[position], Toast.LENGTH_SHORT).show();
+        question.user_answer=option[position];
+        notifyDataSetChanged();
+
+    });
+        if(question.user_answer==option[position]){
+            Toast.makeText(context, "SHOW RED BODY", Toast.LENGTH_SHORT).show();
+
+        }
+        Toast.makeText(context, "SHOW SIMPLE BODY", Toast.LENGTH_SHORT).show();
 
     }
 
