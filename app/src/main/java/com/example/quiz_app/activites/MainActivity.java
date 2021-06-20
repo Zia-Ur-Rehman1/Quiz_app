@@ -7,6 +7,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.MenuItem;
@@ -33,9 +34,11 @@ import com.google.firebase.firestore.FirebaseFirestoreException;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
+import java.util.Date;
 import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
@@ -67,13 +70,20 @@ public class MainActivity extends AppCompatActivity {
         datepicker.setOnClickListener(v -> {
             MaterialDatePicker<Long> materialDateBuilder = MaterialDatePicker.Builder.datePicker().build();
             materialDateBuilder.show(getSupportFragmentManager(),"DatePicker");
-            materialDateBuilder.addOnPositiveButtonClickListener(selection -> {
-                Log.d("DatePicker", materialDateBuilder.getHeaderText());
+            materialDateBuilder.addOnPositiveButtonClickListener(new MaterialPickerOnPositiveButtonClickListener<Long>() {
+                @Override
+                public void onPositiveButtonClick(Long selection) {
 
+                    Log.d("DatePicker", materialDateBuilder.getHeaderText());
+                    SimpleDateFormat dateFormat = new SimpleDateFormat("dd-mm-yyyy");
+                    String date = dateFormat.format(new Date(selection));
+                    Intent intent = new Intent(MainActivity.this, QuestionActivity.class);
+                    intent.putExtra("DATE", date);
+                    MainActivity.this.startActivity(intent);
+                }
             });
             materialDateBuilder.addOnNegativeButtonClickListener(selection -> {
                 Log.d("DatePicker", materialDateBuilder.getHeaderText());
-
             });
             materialDateBuilder.addOnCancelListener(selection -> {
                 Log.d("DatePicker", "Date Picker Cancelled");

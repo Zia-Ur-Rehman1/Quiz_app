@@ -1,6 +1,7 @@
 package com.example.quiz_app.adapters;
 
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Color;
 import android.media.Image;
 import android.view.LayoutInflater;
@@ -16,6 +17,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.quiz_app.R;
 import com.example.quiz_app.activites.MainActivity;
+import com.example.quiz_app.activites.QuestionActivity;
 import com.example.quiz_app.models.Quiz;
 import com.example.quiz_app.utils.ColorPicker;
 import com.example.quiz_app.utils.IconPicker;
@@ -48,6 +50,9 @@ public class QuizAdapter extends RecyclerView.Adapter<QuizAdapter.QuizViewHolder
         @Override
         public void onClick(View v) {
             Toast.makeText(context,quizList.get(position).getTitle(),Toast.LENGTH_SHORT).show();
+            Intent intent=new Intent(context, QuestionActivity.class);
+            intent.putExtra("DATE",quizList.get(position).getTitle());
+            context.startActivity(intent);
         }
     });
     }

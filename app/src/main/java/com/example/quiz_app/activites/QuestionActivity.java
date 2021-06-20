@@ -4,6 +4,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.widget.LinearLayout;
@@ -12,11 +13,17 @@ import android.widget.TextView;
 import com.example.quiz_app.R;
 import com.example.quiz_app.adapters.OptionAdapter;
 import com.example.quiz_app.models.Question;
+import com.example.quiz_app.models.Quiz;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.firestore.CollectionReference;
+import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.QuerySnapshot;
 
 import java.util.ArrayList;
 
 public class QuestionActivity extends AppCompatActivity {
     Question question;
+    FirebaseFirestore db;
     OptionAdapter optionAdapter;
     RecyclerView recyclerViewl;
     @Override
@@ -27,8 +34,16 @@ public class QuestionActivity extends AppCompatActivity {
         bindViews();
         setUpFireStore();
     }
-    private void SetupFireStore(){
+    private void setUpFireStore(){
+        db= FirebaseFirestore.getInstance();
+        db.collection("quizzes").whereEqualTo("title","11-12-2012")
+        .get()
+        .addOnSuccessListener(queryDocumentSnapshots -> {
+            Log.d("Data", queryDocumentSnapshots.toObjects(Quiz.class).toString());
 
+        })
+        ;
+        
     }
 
     private void bindViews(){
