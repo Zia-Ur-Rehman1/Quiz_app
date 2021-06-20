@@ -6,12 +6,14 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.quiz_app.R;
 import com.example.quiz_app.adapters.OptionAdapter;
@@ -23,6 +25,8 @@ import com.google.android.gms.tasks.Task;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -46,8 +50,34 @@ public class QuestionActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_question);
         recyclerViewl=findViewById(R.id.optionList);
+        next=findViewById(R.id.btnNext);
+        prev=findViewById(R.id.btnPrevious);
+        submit=findViewById(R.id.btnSubmit);
+
         setUpFireStore();
+        setUpEventLister();
+        
     }
+
+    private void setUpEventLister() {
+    prev.setOnClickListener(v -> {
+        index--;
+        bindViews();
+    });
+        next.setOnClickListener(v -> {
+            index++;
+            bindViews();
+        });
+        submit.setOnClickListener(v -> {
+            Log.d("FINAL", questions.toString());
+            Gson gson = new GsonBuilder().setPrettyPrinting().create();
+            String json=gson.toJson(quiz);
+            Intent intent = new Intent(QuestionActivity.this, ResultActivity.class);
+            intent.putExtra("QUIZ", json);
+            QuestionActivity.this.startActivity(intent);
+        });
+    }
+
     private void setUpFireStore(){
 
         db= FirebaseFirestore.getInstance();
@@ -60,11 +90,15 @@ public class QuestionActivity extends AppCompatActivity {
                         @Override
                         public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
                             if(queryDocumentSnapshots!=null && !queryDocumentSnapshots.isEmpty()){
-                                Log.d("ZIA",queryDocumentSnapshots.toObjects(Quiz.class).get(0).questions.toString());
                                 quiz.addAll(queryDocumentSnapshots.toObjects(Quiz.class));
                                 questions = quiz.get(0).questions;
                                 bindViews();
-
+                            }
+                            else{
+                                Toast.makeText(QuestionActivity.this,"No Quiz for Given Date",Toast.LENGTH_LONG).show();
+                                Intent intent = new Intent(QuestionActivity.this, MainActivity.class);
+                                QuestionActivity.this.startActivity(intent);
+                                finish();
                             }
                         }
                     });
@@ -76,9 +110,6 @@ public class QuestionActivity extends AppCompatActivity {
     private void bindViews(){
 
 
-        next=findViewById(R.id.btnNext);
-        prev=findViewById(R.id.btnPrevious);
-        submit=findViewById(R.id.btnSubmit);
         next.setVisibility(View.GONE);
         prev.setVisibility(View.GONE);
         submit.setVisibility(View.GONE);
@@ -93,7 +124,6 @@ public class QuestionActivity extends AppCompatActivity {
             next.setVisibility(View.VISIBLE);
             prev.setVisibility(View.VISIBLE);
         }
-        Log.d("TAG", String.valueOf(questions.size()));
         Question question = questions.get("question"+index);
         TextView discp=findViewById(R.id.description);
         discp.setText(question.description);

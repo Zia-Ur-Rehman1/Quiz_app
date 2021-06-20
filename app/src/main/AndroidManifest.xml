@@ -11,15 +11,15 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppThemeNoActionBar">
-        <activity android:name=".activites.QuestionActivity" android:theme="@style/AppTheme" >
-
-        </activity>
+        <activity android:name=".activites.ResultActivity"></activity>
+        <activity android:name=".activites.ProfileActivity" />
+        <activity
+            android:name=".activites.QuestionActivity"
+            android:theme="@style/AppTheme" />
         <activity android:name=".activites.SignupActivity" />
         <activity android:name=".activites.LoginActivity" />
-        <activity android:name=".activites.LoginIntro">
-
-        </activity>
-        <activity android:name=".activites.MainActivity" >
+        <activity android:name=".activites.LoginIntro" />
+        <activity android:name=".activites.MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

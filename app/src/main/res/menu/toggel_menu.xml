@@ -3,7 +3,7 @@
 
     xmlns:android="http://schemas.android.com/apk/res/android">
 
-    <item android:title="Follow Us" />
-    <item android:title="Profile" />
-    <item android:title="Rate Us" />
+    <item android:title="Follow Us" android:id="@+id/btnFollowUs"/>
+    <item android:title="Profile" android:id="@+id/btnProfile" />
+    <item android:title="Rate Us" android:id="@+id/btnRateUs" />
 </menu>

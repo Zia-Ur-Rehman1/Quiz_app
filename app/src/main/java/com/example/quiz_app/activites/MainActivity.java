@@ -24,6 +24,7 @@ import com.google.android.gms.tasks.Task;
 import com.google.android.material.datepicker.MaterialDatePicker;
 import com.google.android.material.datepicker.MaterialPickerOnPositiveButtonClickListener;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import com.google.android.material.navigation.NavigationView;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentReference;
@@ -34,6 +35,8 @@ import com.google.firebase.firestore.FirebaseFirestoreException;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 
+import org.jetbrains.annotations.NotNull;
+
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Collection;
@@ -43,6 +46,7 @@ import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
     ActionBarDrawerToggle drawer;
+    NavigationView navigationView;
     FloatingActionButton datepicker;
     QuizAdapter adapter;
     FirebaseFirestore db;
@@ -69,23 +73,20 @@ public class MainActivity extends AppCompatActivity {
         datepicker.setOnClickListener(v -> {
             MaterialDatePicker<Long> materialDateBuilder = MaterialDatePicker.Builder.datePicker().build();
             materialDateBuilder.show(getSupportFragmentManager(),"DatePicker");
-            materialDateBuilder.addOnPositiveButtonClickListener(new MaterialPickerOnPositiveButtonClickListener<Long>() {
-                @Override
-                public void onPositiveButtonClick(Long selection) {
-
-                    Log.d("DatePicker", materialDateBuilder.getHeaderText());
-                    SimpleDateFormat dateFormat = new SimpleDateFormat("dd-mm-yyyy");
-                    String date = dateFormat.format(new Date(selection));
-                    Intent intent = new Intent(MainActivity.this, QuestionActivity.class);
-                    intent.putExtra("DATE", date);
-                    MainActivity.this.startActivity(intent);
-                }
+            materialDateBuilder.addOnPositiveButtonClickListener(selection -> {
+                Log.d("DatePicker","postive"+ materialDateBuilder.getHeaderText());
+                SimpleDateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy");
+                String date = dateFormat.format(new Date(selection));
+                Log.d("DatePicker", "Format"+date);
+                Intent intent = new Intent(MainActivity.this, QuestionActivity.class);
+                intent.putExtra("DATE", date);
+                MainActivity.this.startActivity(intent);
             });
             materialDateBuilder.addOnNegativeButtonClickListener(selection -> {
-                Log.d("DatePicker", materialDateBuilder.getHeaderText());
+                Log.d("DatePicker","date neg" +materialDateBuilder.getHeaderText());
             });
             materialDateBuilder.addOnCancelListener(selection -> {
-                Log.d("DatePicker", "Date Picker Cancelled");
+                Log.d("DatePicker", "date cancel"+"Date Picker Cancelled");
             });
         });
     }
@@ -112,9 +113,16 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void setUpDrawlayout() {
+        navigationView = findViewById(R.id.navigationView);
+        navigationView.setNavigationItemSelectedListener(item -> {
+            Intent intent = new Intent(MainActivity.this, ProfileActivity.class);
+            MainActivity.this.startActivity(intent);
+            return true;
+        });
         setSupportActionBar(findViewById(R.id.appBar));
         drawer = new ActionBarDrawerToggle(MainActivity.this, findViewById(R.id.mainDrawer), R.string.app_name, R.string.app_name);
         drawer.syncState();
+
     }
 
     @Override
