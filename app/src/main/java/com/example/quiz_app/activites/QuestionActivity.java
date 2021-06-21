@@ -72,9 +72,11 @@ public class QuestionActivity extends AppCompatActivity {
             Log.d("FINAL", questions.toString());
             Gson gson = new GsonBuilder().setPrettyPrinting().create();
             String json=gson.toJson(quiz);
+
             Intent intent = new Intent(QuestionActivity.this, ResultActivity.class);
             intent.putExtra("QUIZ", json);
             QuestionActivity.this.startActivity(intent);
+            finish();
         });
     }
 

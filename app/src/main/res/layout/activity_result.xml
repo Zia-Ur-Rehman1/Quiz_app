@@ -25,7 +25,7 @@
                 android:id="@+id/trophy"
                 android:layout_width="120dp"
                 android:layout_height="120dp"
-                app:srcCompat="@drawable/ic_launcher_background"
+                android:src="@drawable/ic_undraw_winners_ao2o"
                 app:tint="@android:color/white" />
 
             <TextView
