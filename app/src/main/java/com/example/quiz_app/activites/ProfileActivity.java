@@ -31,6 +31,7 @@ public class ProfileActivity extends AppCompatActivity {
                 FirebaseAuth.getInstance().signOut();
                 Intent intent=new Intent(ProfileActivity.this, LoginActivity.class);
                 ProfileActivity.this.startActivity(intent);
+                finish();
             }
         });
     }

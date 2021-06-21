@@ -81,6 +81,7 @@ public class MainActivity extends AppCompatActivity {
                 Intent intent = new Intent(MainActivity.this, QuestionActivity.class);
                 intent.putExtra("DATE", date);
                 MainActivity.this.startActivity(intent);
+                finish();
             });
             materialDateBuilder.addOnNegativeButtonClickListener(selection -> {
                 Log.d("DatePicker","date neg" +materialDateBuilder.getHeaderText());
@@ -117,6 +118,7 @@ public class MainActivity extends AppCompatActivity {
         navigationView.setNavigationItemSelectedListener(item -> {
             Intent intent = new Intent(MainActivity.this, ProfileActivity.class);
             MainActivity.this.startActivity(intent);
+            finish();
             return true;
         });
         setSupportActionBar(findViewById(R.id.appBar));
